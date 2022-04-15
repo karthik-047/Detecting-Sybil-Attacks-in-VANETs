@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#
 from __future__ import print_function
 from __future__ import absolute_import
 from dis import dis
@@ -57,17 +57,27 @@ step = 0
 
 
 #adding Roadside units as Point of Interests (PoI)
-traci.poi.add("RSU1",2676.39,1667.14, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU2",2866.53,1551.57, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU3",3073.44,1622.41, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU4",3261.72,1512.42, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU5",3470.50,1586.99, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU6",3540.96,1374.41, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU7",3095.81,1385.66, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU8",2844.16,1339.06, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU9",2989.56,1857.28, color=(255, 255, 255), width=500, height=500, layer="1")
-traci.poi.add("RSU10",3379.16,1810.68, color=(255, 255, 255), width=500, height=500, layer="1")
+traci.poi.add("RSU1",2676.39,1667.14, color=(255, 255, 255), width=5000, height=5000)
+traci.poi.add("RSU2",2866.53,1551.57, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU3",3073.44,1622.41, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU4",3261.72,1512.42, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU5",3470.50,1586.99, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU6",3430.44,1384.51, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU7",3095.81,1385.66, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU8",3124.05,1842.35, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU9",2887.62,1761.37, color=(255, 255, 255), width=500, height=500,)
+traci.poi.add("RSU10",3338.95,1778.16, color=(255, 255, 255), width=500, height=500)
 
+traci.poi.highlight("RSU1",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU2",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU3",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU4",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU5",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU6",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU7",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU8",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU9",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU10",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
 #veh_loc indexing: [step_value] [vehicle_id] [x and y coordinate]
 #storing x and y coordinates of 50 vehicles for MAX_STEP times
 veh_loc = numpy.zeros(shape=(MAX_STEP,NO_VEHICLES,2))
@@ -96,4 +106,4 @@ for k in range (MAX_STEP):
                 dis_db[k][i][j] = find_distance(rsu_loc[i],veh_loc[k][j])
     
 #print(veh_loc)
-print(dis_db[step-1])
+#print(dis_db[step-1])
