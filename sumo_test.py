@@ -5,11 +5,13 @@ from __future__ import absolute_import
 from dis import dis
 from gettext import find
 import os
+from re import M
 import sys
 import random
 import bisect
 import math
 import csv
+from turtle import shape
 import numpy
 import pandas as pd
 import subprocess
@@ -46,7 +48,8 @@ dis_array = numpy.zeros(shape=(10,10))
 for i in range (0,len(rsu_loc)):
     for j in range (0,len(rsu_loc)):
         if(j!=i):
-            dis_array[i,j] = find_distance(rsu_loc[i],rsu_loc[j])
+            dis_array[i,j] = find_distance(rsu_loc[i],rsu_loc[j])/2
+
 
 #print(dis_array)  
 
@@ -89,8 +92,10 @@ while step < MAX_STEP:
    traci.simulationStep()
    id_count  = traci.vehicle.getIDCount()
    id_names = traci.vehicle.getIDList()
+   
    #print(traci.vehicle.getPosition('0'),traci.vehicle.getPosition('1'))
    for i in id_names:
+       #print(traci.vehicle.getNeighbors(i,7))
        veh_loc[step,int(i)]= traci.vehicle.getPosition(i)
        #print(i,traci.vehicle.getPosition(i))
    #print(veh_loc[step])
@@ -105,5 +110,20 @@ for k in range (MAX_STEP):
             if(any(veh_loc[k][j])!=0):
                 dis_db[k][i][j] = find_distance(rsu_loc[i],veh_loc[k][j])
     
-#print(veh_loc)
-#print(dis_db[step-1])
+#storing the vehicle ids and distances when < 100m at each step:
+filename = "veh_range0.csv"
+id_list = []
+dis_list = []
+for i in range (RSU_COUNT):
+    new_name = filename.replace('0',str(i))
+    with open(new_name,'w',newline = '') as csvfile:
+        csvwriter = csv.writer(csvfile,delimiter = ',')
+        csvwriter.writerow(['Vehicle ID','Distance from RSU','Time step'])
+        for k in range (MAX_STEP):
+            for j in range (NO_VEHICLES):
+                if(0<dis_db[k][i][j]<=100):
+                    id_list.append(j)
+                    dis_list.append(dis_db[k][i][j])
+            csvwriter.writerow([id_list,dis_list,k])
+            id_list.clear()
+            dis_list.clear()
