@@ -11,6 +11,7 @@ import random
 import bisect
 import math
 import csv
+from tkinter.messagebox import NO
 from turtle import shape
 import numpy
 import pandas as pd
@@ -39,11 +40,19 @@ def find_distance(p1,p2):
     dis = math.sqrt(sq1+sq2)
     return dis
 
+
+def make_list(st,rs):
+    tlist = list()
+    for i in range (NO_VEHICLES):
+        if(dis_range[st][rs][i]==1):
+            tlist.append(i)
+    return tlist
+
 #list of RSU coordinates
 rsu_loc = [[2676.39,1667.14],[2866.53,1551.57],[3073.44,1622.41],[3261.72,1512.42],[3470.50,1586.99],[3540.96,1374.41],[3095.81,1385.66],[2844.16,1339.06],[2989.56,1857.28],[3379.16,1810.68]]
 
 
-#checking the distance between the RSUs
+#checking the distance between the RSUs to determine the range
 dis_array = numpy.zeros(shape=(10,10))
 for i in range (0,len(rsu_loc)):
     for j in range (0,len(rsu_loc)):
@@ -87,19 +96,14 @@ veh_loc = numpy.zeros(shape=(MAX_STEP,NO_VEHICLES,2))
 
 #to store distance between all rsus and all vehicles
 dis_db = numpy.zeros(shape=(MAX_STEP,RSU_COUNT,NO_VEHICLES))
+dis_range = numpy.zeros(shape=(MAX_STEP,RSU_COUNT,NO_VEHICLES))
 #using step in simulation
 while step < MAX_STEP:
    traci.simulationStep()
    id_count  = traci.vehicle.getIDCount()
    id_names = traci.vehicle.getIDList()
-   
-   #print(traci.vehicle.getPosition('0'),traci.vehicle.getPosition('1'))
    for i in id_names:
-       #print(traci.vehicle.getNeighbors(i,7))
-       veh_loc[step,int(i)]= traci.vehicle.getPosition(i)
-       #print(i,traci.vehicle.getPosition(i))
-   #print(veh_loc[step])
-   #print("\n")
+       veh_loc[step,int(i)]= traci.vehicle.getPosition(i)   
    step = step+1
 traci.close()
 
@@ -109,21 +113,37 @@ for k in range (MAX_STEP):
         for j in range (NO_VEHICLES):
             if(any(veh_loc[k][j])!=0):
                 dis_db[k][i][j] = find_distance(rsu_loc[i],veh_loc[k][j])
-    
-#storing the vehicle ids and distances when < 100m at each step:
-filename = "veh_range0.csv"
-id_list = []
-dis_list = []
-for i in range (RSU_COUNT):
-    new_name = filename.replace('0',str(i))
-    with open(new_name,'w',newline = '') as csvfile:
-        csvwriter = csv.writer(csvfile,delimiter = ',')
-        csvwriter.writerow(['Vehicle ID','Distance from RSU','Time step'])
-        for k in range (MAX_STEP):
-            for j in range (NO_VEHICLES):
                 if(0<dis_db[k][i][j]<=100):
-                    id_list.append(j)
-                    dis_list.append(dis_db[k][i][j])
-            csvwriter.writerow([id_list,dis_list,k])
-            id_list.clear()
-            dis_list.clear()
+                    dis_range[k][i][j] = 1
+li1 = list()
+li2 = list()
+for k in range (MAX_STEP):
+    for i in range (RSU_COUNT):
+        li1 = make_list(k,i)
+        #print(li1,len(li1))
+        for k1 in range (MAX_STEP):
+            if(k1!=k):
+                for i1 in range (RSU_COUNT):
+                    if(i1!=i):
+                        li2 = make_list(k1,i1)
+                        if((len(li1)>1)and(len(li2)>1)):
+                            li3 = list(set(li1)&set(li2))
+                            if(len(li3)>1):
+                                print(k,i,k1,i1,li3)                   
+#storing the vehicle ids and distances when < 100m at each step:
+# # filename = "veh_range0.csv"
+# id_list = []
+# dis_list = []
+# for i in range (RSU_COUNT):
+#     new_name = filename.replace('0',str(i))
+#     with open(new_name,'w',newline = '') as csvfile:
+#         csvwriter = csv.writer(csvfile,delimiter = ',')
+#         csvwriter.writerow(['Vehicle ID','Distance from RSU','Time step'])
+#         for k in range (MAX_STEP):
+#             for j in range (NO_VEHICLES):
+#                 if(0<dis_db[k][i][j]<=100):
+#                     id_list.append(j)
+#                     dis_list.append(dis_db[k][i][j])
+#             csvwriter.writerow([id_list,dis_list,k])
+#             id_list.clear()
+#             dis_list.clear()
