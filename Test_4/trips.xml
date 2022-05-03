@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- generated on 2022-05-02 08:41:53.916466 by randomTrips.py v1_12_0+0000-800cb422fa4
+  options: -n .\2022-03-17-09-19-01\Test_4\bryan_test.net.xml -r .\2022-03-17-09-19-01\Test_4\routes.rou.xml -o .\2022-03-17-09-19-01\Test_4\trips.xml -e 1000 -p 20 <doubleminus>random -s 13 <doubleminus>min-distance 1200.0
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <trip id="0" depart="0.00" from="-20725940#7" to="-20719775#3"/>
+    <trip id="1" depart="20.00" from="20730500#9" to="387295620"/>
+    <trip id="2" depart="40.00" from="-627195740#3" to="20719744#3"/>
+    <trip id="3" depart="60.00" from="-20728485#2" to="-342245231#6"/>
+    <trip id="4" depart="80.00" from="-20732189#2" to="20720966#2"/>
+    <trip id="5" depart="100.00" from="20729595#1" to="-618584809#1"/>
+    <trip id="6" depart="120.00" from="20722896#1" to="-20724743#6"/>
+    <trip id="7" depart="140.00" from="-20727093#5" to="20725535#6"/>
+    <trip id="8" depart="160.00" from="387287245#4" to="20730416#3"/>
+    <trip id="9" depart="180.00" from="387295620" to="20730500#8"/>
+    <trip id="10" depart="200.00" from="-387295620" to="-20722896#0"/>
+    <trip id="11" depart="220.00" from="20722850#7" to="20718094#0"/>
+    <trip id="12" depart="240.00" from="-20724596#5" to="-20720458#3"/>
+    <trip id="13" depart="260.00" from="-20724596#0" to="342245231#7"/>
+    <trip id="14" depart="280.00" from="-20720458#6" to="20720929#5"/>
+    <trip id="15" depart="300.00" from="20722896#0" to="575745867#1"/>
+    <trip id="16" depart="320.00" from="20724743#4" to="-387295620"/>
+    <trip id="17" depart="340.00" from="-20719030#0" to="20720929#9"/>
+    <trip id="18" depart="360.00" from="20732189#0" to="895413646#1"/>
+    <trip id="19" depart="380.00" from="20729818#1" to="20722988#0"/>
+    <trip id="20" depart="400.00" from="20724743#1" to="20720966#5"/>
+    <trip id="21" depart="420.00" from="342245231#4" to="20726188#2"/>
+    <trip id="22" depart="440.00" from="-20728485#2" to="20730500#5"/>
+    <trip id="23" depart="460.00" from="618572337#1" to="20721607#8"/>
+    <trip id="24" depart="480.00" from="-20722988#0" to="20728485#2"/>
+    <trip id="25" depart="500.00" from="20720966#0" to="-20724743#5"/>
+    <trip id="26" depart="520.00" from="20724580#5" to="20729818#3"/>
+    <trip id="27" depart="540.00" from="387295622#0" to="20728486#3"/>
+    <trip id="28" depart="560.00" from="-627195740#4" to="20722896#4"/>
+    <trip id="29" depart="580.00" from="387295620" to="20720402#1"/>
+    <trip id="30" depart="600.00" from="-20720966#2" to="20721607#9"/>
+    <trip id="31" depart="620.00" from="20719775#2" to="20729818#0"/>
+    <trip id="32" depart="640.00" from="20722988#3" to="20720402#3"/>
+    <trip id="33" depart="660.00" from="-20720929#6" to="-20729804#0"/>
+    <trip id="34" depart="680.00" from="-20719775#2" to="20725070#1"/>
+    <trip id="35" depart="700.00" from="-20730416#5" to="-20722075#0"/>
+    <trip id="36" depart="720.00" from="-618584809#3" to="20719744#0"/>
+    <trip id="37" depart="740.00" from="324056351#6" to="-20721607#9"/>
+    <trip id="38" depart="760.00" from="20724743#1" to="20730416#5"/>
+    <trip id="39" depart="780.00" from="-20730416#5" to="-20727043#2"/>
+    <trip id="40" depart="800.00" from="-20721607#11" to="618584809#1"/>
+    <trip id="41" depart="820.00" from="-20730416#5" to="-20726306#2"/>
+    <trip id="42" depart="840.00" from="20724580#8" to="20720402#4"/>
+    <trip id="43" depart="860.00" from="-20720929#9" to="324056352"/>
+    <trip id="44" depart="880.00" from="20726399#3" to="20725940#7"/>
+    <trip id="45" depart="900.00" from="-20727043#5" to="-20730500#8"/>
+    <trip id="46" depart="920.00" from="-324056351#7" to="20725532#0"/>
+    <trip id="47" depart="940.00" from="-618605760#1" to="-20727093#7"/>
+    <trip id="48" depart="960.00" from="-618605760#1" to="20722988#0"/>
+    <trip id="49" depart="980.00" from="-20732189#6" to="20731195#5"/>
+</routes>
