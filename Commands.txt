@@ -1,0 +1,1 @@
+.\randomTrips.py -n .\2022-03-17-09-19-01\Test_4\bryan_test.net.xml -r .\2022-03-17-09-19-01\Test_4\routes.rou.xml -o .\2022-03-17-09-19-01\Test_4\trips.xml -e 1000 -p 20 --random -s 8 --max-distance 1000.0

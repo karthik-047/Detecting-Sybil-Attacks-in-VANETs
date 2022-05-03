@@ -19,6 +19,9 @@ import subprocess
 from collections import defaultdict
 import math
 import traci
+import xml.etree.ElementTree as ET
+import openpyxl as op
+
 
 MAX_STEP = 500
 NO_VEHICLES = 50
@@ -30,10 +33,18 @@ if 'SUMO_HOME' in os.environ:
     sys.path.append(os.path.join(os.environ['SUMO_HOME'], 'tools'))
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
+    
 import sumolib  # noqa
 from sumolib.miscutils import euclidean  # noqa
 from sumolib.geomhelper import naviDegree, minAngleDegreeDiff  # noqa
 
+
+#changing the departure time of the nodes to 0.00
+tree = ET.parse('routes.rou.xml')
+root = tree.getroot()
+for vehicle in root.findall('vehicle'):
+  vehicle.attrib['depart'] = str(0.00)
+tree.write('routes.rou.xml')
 
 #function to find the distance between two points
 def find_distance(p1,p2):
@@ -42,7 +53,7 @@ def find_distance(p1,p2):
     dis = math.sqrt(sq1+sq2)
     return dis
 
-
+#making a list of nodes recorded bt the RSU rs at time step st
 def make_list(st,rs):
     tlist = list()
     for i in range (NO_VEHICLES):
@@ -62,11 +73,6 @@ for i in range (RSU_COUNT):
         if(j!=i):
             dis_array[i,j] = find_distance(rsu_loc[i],rsu_loc[j])/2
 
-# print("In range")
-# for i in range (RSU_COUNT):
-#     for j in range (RSU_COUNT):
-#         if(dis_array[i][j]>200):
-#             print(i,j,dis_array[i][j])
 
 
 #starting the sumo simulation
@@ -86,19 +92,6 @@ traci.poi.add("RSU7",3095.81,1385.66, color=(255, 255, 255), width=500, height=5
 traci.poi.add("RSU8",3124.05,1842.35, color=(255, 255, 255), width=500, height=500)
 traci.poi.add("RSU9",2887.62,1761.37, color=(255, 255, 255), width=500, height=500)
 traci.poi.add("RSU10",3338.95,1778.16, color=(255, 255, 255), width=500, height=500)
-
-traci.poi.highlight("RSU1",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU2",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU3",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU4",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU5",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU6",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU7",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU8",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU9",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-traci.poi.highlight("RSU10",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
-
-
 traci.poi.add("RSU11",2616.71,1449.19, color=(255, 255, 255), width=500, height=500)
 traci.poi.add("RSU12",2834.06,1331.29, color=(255, 255, 255), width=500, height=500)
 traci.poi.add("RSU13",2973.72,1137.42, color=(255, 255, 255), width=500, height=500)
@@ -110,6 +103,18 @@ traci.poi.add("RSU18",2912.82,1960.32, color=(255, 255, 255), width=500, height=
 traci.poi.add("RSU19",2477.07,1606.26, color=(255, 255, 255), width=500, height=500)
 traci.poi.add("RSU20",3411.30,1070.37, color=(255, 255, 255), width=500, height=500)
 
+
+#highlighting the range of each RSU
+traci.poi.highlight("RSU1",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU2",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU3",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU4",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU5",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU6",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU7",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU8",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU9",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
+traci.poi.highlight("RSU10",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
 traci.poi.highlight("RSU11",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
 traci.poi.highlight("RSU12",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
 traci.poi.highlight("RSU13",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
@@ -121,8 +126,8 @@ traci.poi.highlight("RSU18",color=(255,0,0),size = 100, alphaMax=255, duration=M
 traci.poi.highlight("RSU19",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
 traci.poi.highlight("RSU20",color=(255,0,0),size = 100, alphaMax=255, duration=MAX_STEP)
 
-#veh_loc indexing: [step_value] [vehicle_id] [x and y coordinate]
-#storing x and y coordinates of 50 vehicles for MAX_STEP times
+
+#storing x and y coordinates of all vehicles vehicles for MAX_STEP times
 veh_loc = numpy.zeros(shape=(MAX_STEP,NO_VEHICLES,2))
 
 #to store distance between all rsus and all vehicles
@@ -146,43 +151,10 @@ for k in range (MAX_STEP):
                 dis_db[k][i][j] = find_distance(rsu_loc[i],veh_loc[k][j])
                 if(0<dis_db[k][i][j]<=100):
                     dis_range[k][i][j] = 1
-# li1 = list()
-# li2 = list()
-# li4 = list()
-# flag1 = False
-# filename = "overlap.csv"
-# with open(filename,'w',newline = '') as csvfile:
-#     csvwriter = csv.writer(csvfile,delimiter = ',')
-#     csvwriter.writerow(['RSU_ID1','TIME1','RSU_ID2','Time2','Veh IDs','Distance'])
-#     for i in range (RSU_COUNT):
-#         for k in range (MAX_STEP):
-#             li1 = make_list(k,i)
-#             for i1 in range (RSU_COUNT):
-#                 if(i1!=i):
-#                     for k1 in range (MAX_STEP):
-#                         if(k1!=k):
-#                             li2 = make_list(k1,i1)
-#                             if((len(li1)>=2)and(len(li2)>=2)):
-#                                 li3 = list(set(li1)&set(li2))
-#                                 if(len(li3)>=2):
-#                                     li3.sort()
-#                                     if(dis_array[i][i1]>150):
-#                                         print(li3,li4)
-#                                         if(li3==li4):
-#                                             flag1 = True
-#                                             break
-#                                         else:
-#                                             li4 = li3
-#                                             print(i,k,i1,k1,li3,dis_array[i][i1])
-#                                             csvwriter.writerow([i,k,i1,k1,li3,dis_array[i][i1]])
-#                                             break
-                                        
-# df = pd.read_csv('overlap.csv')
-# df.drop_duplicates(subset=['Veh IDs', 'Distance'],inplace=True)
-# df.to_csv('final_overlap.csv',index = False)
+
 
 #storing the vehicle ids and distances when < 100m at each step:
-filename = "veh_range0.csv"
+filename = "veh_range0.csv" 
 id_list = []
 dis_list = []
 for i in range (RSU_COUNT):
@@ -192,9 +164,67 @@ for i in range (RSU_COUNT):
         csvwriter.writerow(['Vehicle ID','Distance from RSU','Time step'])
         for k in range (MAX_STEP):
             for j in range (NO_VEHICLES):
-                if(0<dis_db[k][i][j]<=100):
+                if(0<dis_db[k][i][j]<=100):   #checking whether the vehicles are within the range of RSU
                     id_list.append(j)
                     dis_list.append(dis_db[k][i][j])
             csvwriter.writerow([id_list,dis_list,k])
             id_list.clear()
             dis_list.clear()
+                    
+li1 = list()
+li2 = list()
+li4 = list()
+flag1 = False
+filename = "overlap.csv"   #File to save recorded malicious events
+with open(filename,'w',newline = '') as csvfile:
+    csvwriter = csv.writer(csvfile,delimiter = ',')
+    csvwriter.writerow(['RSU_ID1','TIME1','RSU_ID2','Time2','Veh IDs','Distance'])
+    for i in range (RSU_COUNT):
+        for k in range (MAX_STEP):
+            li1 = make_list(k,i)
+            for i1 in range (RSU_COUNT):
+                if(i1!=i):
+                    for k1 in range (MAX_STEP):
+                        if(k1!=k):
+                            li2 = make_list(k1,i1)
+                            if((len(li1)>=2)and(len(li2)>=2)):  #finding the lists with common vehicle IDs
+                                li3 = list(set(li1)&set(li2))  
+                                if(len(li3)>=2):        #need more than 1 node for a sybil pair
+                                    li3.sort()
+                                    if(dis_array[i][i1]>150):    #distance threshold for eliminating adjacent RSU detection
+                                        #print(li3,li4)
+                                        if(li3==li4):  #comparing if the pair is already found between RSUx and RSUy
+                                            flag1 = True
+                                            break
+                                        else:
+                                            li4 = li3
+                                            print(i,k,i1,k1,li3,dis_array[i][i1])
+                                            csvwriter.writerow([i,k,i1,k1,li3,dis_array[i][i1]])
+                                            break
+                                        
+df = pd.read_csv('overlap.csv')
+df.drop_duplicates(subset=['Veh IDs', 'Distance'],inplace=True)   #dropping the duplicates between the same RSU pairs
+df.to_csv('final_overlap.csv',index = False)
+
+li5 = list([200,250,300,350])  #distance threshold        
+
+#filtering the mailicious events based on the distance between the RSUs recording the events
+great_file = "greater_200.xlsx"
+df = pd.read_csv('final_overlap.csv',index_col=0)
+for elt in li5:
+  df1 = df[(df['Distance']>elt)]
+  new_write = great_file.replace('200',str(elt))
+  df1.to_excel(new_write)
+
+
+#finding the frequency of the occurence of the nodes involved in the malicious events
+filename = "greater_200.xlsx"
+writename = "overlap_200_freq.xlsx"
+for elt in li5:
+  new_name = filename.replace('200',str(elt))
+  print(new_name)
+  df = pd.read_excel(new_name)
+  dup_ids = df.pivot_table(columns = ['Veh IDs'],aggfunc = 'size')
+  new_write = writename.replace('200',str(elt))
+  print(new_write)
+  dup_ids.to_excel(new_write)
