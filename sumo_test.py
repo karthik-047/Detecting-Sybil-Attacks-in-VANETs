@@ -21,7 +21,7 @@ import math
 import traci
 
 MAX_STEP = 500
-NO_VEHICLES = 55
+NO_VEHICLES = 50
 RSU_COUNT = 20
 
 config_file =  "bryan_test.sumocfg"
@@ -146,38 +146,55 @@ for k in range (MAX_STEP):
                 dis_db[k][i][j] = find_distance(rsu_loc[i],veh_loc[k][j])
                 if(0<dis_db[k][i][j]<=100):
                     dis_range[k][i][j] = 1
-li1 = list()
-li2 = list()
-li4 = list()
-flag1 = False
-filename = "overlap.csv"
-with open(filename,'w',newline = '') as csvfile:
-    csvwriter = csv.writer(csvfile,delimiter = ',')
-    csvwriter.writerow(['RSU_ID1','TIME1','RSU_ID2','Time2','Veh IDs','Distance'])
-    for i in range (RSU_COUNT):
-        for k in range (MAX_STEP):
-            li1 = make_list(k,i)
-            for i1 in range (RSU_COUNT):
-                if(i1!=i):
-                    for k1 in range (MAX_STEP):
-                        if(k1!=k):
-                            li2 = make_list(k1,i1)
-                            if((len(li1)>=2)and(len(li2)>=2)):
-                                li3 = list(set(li1)&set(li2))
-                                if(len(li3)>=2):
-                                    li3.sort()
-                                    if(dis_array[i][i1]>150):
-                                        print(li3,li4)
-                                        if(li3==li4):
-                                            flag1 = True
-                                            break
-                                        else:
-                                            li4 = li3
-                                            print(i,k,i1,k1,li3,dis_array[i][i1])
-                                            csvwriter.writerow([i,k,i1,k1,li3,dis_array[i][i1]])
-                                            break
+# li1 = list()
+# li2 = list()
+# li4 = list()
+# flag1 = False
+# filename = "overlap.csv"
+# with open(filename,'w',newline = '') as csvfile:
+#     csvwriter = csv.writer(csvfile,delimiter = ',')
+#     csvwriter.writerow(['RSU_ID1','TIME1','RSU_ID2','Time2','Veh IDs','Distance'])
+#     for i in range (RSU_COUNT):
+#         for k in range (MAX_STEP):
+#             li1 = make_list(k,i)
+#             for i1 in range (RSU_COUNT):
+#                 if(i1!=i):
+#                     for k1 in range (MAX_STEP):
+#                         if(k1!=k):
+#                             li2 = make_list(k1,i1)
+#                             if((len(li1)>=2)and(len(li2)>=2)):
+#                                 li3 = list(set(li1)&set(li2))
+#                                 if(len(li3)>=2):
+#                                     li3.sort()
+#                                     if(dis_array[i][i1]>150):
+#                                         print(li3,li4)
+#                                         if(li3==li4):
+#                                             flag1 = True
+#                                             break
+#                                         else:
+#                                             li4 = li3
+#                                             print(i,k,i1,k1,li3,dis_array[i][i1])
+#                                             csvwriter.writerow([i,k,i1,k1,li3,dis_array[i][i1]])
+#                                             break
                                         
-df = pd.read_csv('overlap.csv')
-df.drop_duplicates(subset=['Veh IDs', 'Distance'],inplace=True)
-df.to_csv('final_overlap.csv',index = False)
-                                   
+# df = pd.read_csv('overlap.csv')
+# df.drop_duplicates(subset=['Veh IDs', 'Distance'],inplace=True)
+# df.to_csv('final_overlap.csv',index = False)
+
+#storing the vehicle ids and distances when < 100m at each step:
+filename = "veh_range0.csv"
+id_list = []
+dis_list = []
+for i in range (RSU_COUNT):
+    new_name = filename.replace('0',str(i))
+    with open(new_name,'w',newline = '') as csvfile:
+        csvwriter = csv.writer(csvfile,delimiter = ',')
+        csvwriter.writerow(['Vehicle ID','Distance from RSU','Time step'])
+        for k in range (MAX_STEP):
+            for j in range (NO_VEHICLES):
+                if(0<dis_db[k][i][j]<=100):
+                    id_list.append(j)
+                    dis_list.append(dis_db[k][i][j])
+            csvwriter.writerow([id_list,dis_list,k])
+            id_list.clear()
+            dis_list.clear()
