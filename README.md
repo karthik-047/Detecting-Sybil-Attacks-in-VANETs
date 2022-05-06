@@ -2,7 +2,7 @@
 				
 				
 				
-															###CSCE665_Project Securing VANETs against Sybil Attacks###
+					###CSCE665_Project Securing VANETs against Sybil Attacks###
 				
 
 
@@ -34,7 +34,7 @@
 		- Generate the sumocfg file by adding the netfile and routefile and save as .cfg
 			<configuration>
 				<input>
-					<net-file value="<generated net-file"/>
+					<net-file value="generated net-file"/>
 					<route-files value="generated route-file"/>
 				</input>
 			</configuration>
